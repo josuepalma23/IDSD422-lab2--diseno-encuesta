@@ -1,7 +1,8 @@
 # Plantilla de diseño — Encuesta de satisfacción (hito 1)
 
-**Equipo:** 4 · **Integrantes:** Jordan Sangucho, Josue Palma, Aidan Carrasco, Joel Champutiz, Emily Dias· **Fecha:** 30/10/2026
-**Repositorio (fork):** https://github.com/josuepalma23/Lab3-Proyecto-EstII
+**Equipo:** 4 · **Integrantes:** Jordan Sangucho, Josue Palma, Aidan Carrasco, Joel Champutiz, Emily Dias· 
+**Fecha:** 30/10/2026
+**Repositorio (fork):** https://github.com/josuepalma23/IDSD422-lab2--diseno-encuesta
 **Enfoque del equipo (aprobado en clase):** Satisfacción y expectativas
 
 Completa cada sección. Usa commits por sección; la historia del repositorio se revisa.
