@@ -24,22 +24,63 @@ Estimar el porcentaje de personas satisfechas en el intervalo de 18 a 29 años e
 
 ## 3. Método de muestreo
 
-- **Método:** Muestreo no probabilístico por cuotas según rango de edad (de 18 a 23 años y de 24 a 29 años), con una cuota por el rango de 18 a 23 años y otra para el rango de 24 a 29 años.
-- **Tamaño y Justificación:** Se recolectan 20 respuestas en total, es decir, una cuota de 10 encuestas por cada rango de edad, lo que equivale a un rango de 3 a 6 respuestas por integrante del grupo. Esta pequeña muestra ayudará al grupo a realizar pruebas y detectar problemas, se definieron estas cuotas con el objetivo de que ambos grupos de edad queden equitativamente representados con datos reales. En el caso de utilizar filas simuladas, estas serán marcadas como tal y en la columna **origen** y quedarán declaradas en el informe.
-- **Selección de los participantes:** 
-  - Cada integrante buscará entre sus contactos a personas que cumplan con el criterio planteado en la sección de la población objetivo y trabajará en su respectiva clasificación de acuerdo al estrato de edad.
-  - De la lista de contactos de cada integrante, se seleccionará a quien encuestar hasta alcanzar la cuota.
-  - Se pedirá a cada encuestado un referido que a su vez cumpla con los requisitos establecidos para ampliar el alcance del experimento más allá del círculo cercano del integrante del grupo.
-  - La encuesta se aplicará en modalidad virtual por medio de herramientas de formularios de Google o Microsoft durante la semana correspondiente al feriado del próximo 2 y 3 de noviembre, se registrará el número de personas referidas que no contestaron.
-  - **Importante:** Al tratarse de contactos de los integrantes del grupo, este diseño corresponde a un muestreo por conveniencia, por lo tanto, las implicaciones y limitaciones de este método se expanden en la sección 5.
+- **Método:** Muestreo no probabilístico por cuotas según rango de edad (`18 a 23 años`, `24 a 29 años`, `30 años o mas`), con una cuota equitativa por cada estrato.
+- **Tamaño y Justificación:** En el diseño inicial se plantean 20 respuestas (10 por estrato, 3 a 6 por integrante). En la recolección real (`estadistica_actualizado-v2.csv`) se obtuvieron 23 respuestas totales, de las cuales **17 cumplen los criterios de población objetivo** (11 de `18 a 23 años` y 6 de `24 a 29 años`; se excluyen 4 de `30 años o más` y 2 fuera de frecuencia mínima). Para equilibrar ambos estratos con datos reales disponibles, se define una cuota de **5 respuestas por estrato (10 en la corrida de prueba)** con semilla fija (`random_state=42`). Para alcanzar el volumen recomendado de 60–100 filas totales, las filas adicionales se generan por simulación con código, se marcan con `origen = simulada` y se declaran en este informe.
+- **Selección de los participantes y no respuesta:**
+  - Cada integrante buscó entre sus contactos a personas que cumplieran con los criterios de la población objetivo (18–29 años, residentes en Quito, compras frecuentes en consumo masivo) y las clasificó según su estrato de edad.
+  - Se solicitó a cada encuestado un referido que cumpliera los mismos criterios para ampliar el alcance más allá del círculo cercano del equipo.
+  - La encuesta se aplicó de forma virtual (formularios Google/Microsoft) durante la semana del feriado del 2 y 3 de noviembre.
+  - **Registro de no respuesta:** Se contabiliza el número de personas contactadas y referidas que no contestaron únicamente sobre la fracción de datos reales (`origen = real`).
+  - **Importante:** Al partir de contactos de los integrantes del grupo, este diseño conserva un componente de muestreo por conveniencia; sus implicaciones y limitaciones se desarrollan en la Sección 5 y se analizan filtrando `origen == "real"`.
+
 
 - Implementación en código:
 
-![alt text](implementacion.jpeg)
+```python
+import pandas as pd
+
+df = pd.read_csv("estadistica_actualizado-v2.csv")
+df.columns = [c.replace("-\n", "").replace("\n", " ").strip() for c in df.columns]
+
+age_col = "¿Cuál es su edad en años cumplidos?"
+freq_col = "¿Con qué frecuencia compra en RetailAndina?"
+
+pob_edad = ["18 a 23 años", "24 a 29 años"]
+pob_freq = ["Semanal", "Quincenal", "Mensual", "Al menos una vez al mes"]
+df_pob = df[df[age_col].isin(pob_edad) & df[freq_col].isin(pob_freq)].copy()
+
+# Una única corrida con semilla fija (random_state=42), cuota de 5 por estrato
+muestra_cuotas = (
+    df_pob.groupby(age_col, group_keys=False)
+    .apply(lambda g: g.sample(n=5, random_state=42))
+)
+print(muestra_cuotas[[age_col, freq_col]])
 
 **Salida de la implementación en Python**
 
-![alt text](salida.jpeg)
+   ¿Cuál es su edad en años cumplidos?  \
+7                         18 a 23 años   
+1                         18 a 23 años   
+21                        18 a 23 años   
+22                        18 a 23 años   
+3                         18 a 23 años   
+6                         24 a 29 años   
+8                         24 a 29 años   
+15                        24 a 29 años   
+9                         24 a 29 años   
+14                        24 a 29 años   
+
+   ¿Con qué frecuencia compra en RetailAndina?  
+7                                      Mensual  
+1                                      Mensual  
+21                     Al menos una vez al mes  
+22                                     Mensual  
+3                                      Semanal  
+6                      Al menos una vez al mes  
+8                      Al menos una vez al mes  
+15                     Al menos una vez al mes  
+9                                      Mensual  
+14                     Al menos una vez al mes  
 
 Este método resulta idóneo por encima de la conveniencia pura, ya que se realiza un sorteo dentro de cada estrato que reduce la influencia de qué encuestado está mas cerca de quien lo encuestó, además, por estrato se aportan la misma cantidad de respuestas, si se realizara por conveniencia las respuestas se pueden quedar acumuladas en un solo grupo.
 
