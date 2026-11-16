@@ -43,6 +43,11 @@ df["fecha"] = pd.to_datetime(df["marca"].str.extract(r"(\d{4}/\d{2}/\d{2})")[0],
 for c in COLS:
     df[c] = df[c].str.strip()
 
+# P8: quitar emojis y símbolos (se conservan letras, números, tildes y puntuación)
+df[COLS[7]] = (df[COLS[7]]
+               .str.replace(r"[^\w\s¿?¡!.,;:()$%+\-/]", "", regex=True)
+               .str.strip())
+
 # 3) Marcar filas sospechosas ANTES de filtrar (marca temporal repetida)
 dup = df[df.duplicated("marca", keep=False)]
 if len(dup):
