@@ -27,12 +27,11 @@ Estimar el porcentaje de personas satisfechas en el intervalo de 18 a 29 años e
 - **Método:** Muestreo no probabilístico por cuotas según rango de edad (`18 a 23 años`, `24 a 29 años`, `30 años o mas`), con una cuota equitativa por cada estrato.
 - **Tamaño y Justificación:** En el diseño inicial se plantean 20 respuestas (10 por estrato, 3 a 6 por integrante). En la recolección real (`estadistica_actualizado-v2.csv`) se obtuvieron 23 respuestas totales, de las cuales **17 cumplen los criterios de población objetivo** (11 de `18 a 23 años` y 6 de `24 a 29 años`; se excluyen 4 de `30 años o más` y 2 fuera de frecuencia mínima). Para equilibrar ambos estratos con datos reales disponibles, se define una cuota de **5 respuestas por estrato (10 en la corrida de prueba)** con semilla fija (`random_state=42`). Para alcanzar el volumen recomendado de 60–100 filas totales, las filas adicionales se generan por simulación con código, se marcan con `origen = simulada` y se declaran en este informe.
 - **Selección de los participantes y no respuesta:**
-  - Cada integrante buscó entre sus contactos a personas que cumplieran con los criterios de la población objetivo (18–29 años, residentes en Quito, compras frecuentes en consumo masivo) y las clasificó según su estrato de edad.
+  - Cada integrante buscó entre sus contactos a personas que cumplan con los criterios de la población objetivo (18–29 años, residentes en Quito, compras frecuentes en consumo masivo) y las clasificó según su estrato de edad.
   - Se solicitó a cada encuestado un referido que cumpliera los mismos criterios para ampliar el alcance más allá del círculo cercano del equipo.
   - La encuesta se aplicó de forma virtual (formularios Google/Microsoft) durante la semana del feriado del 2 y 3 de noviembre.
   - **Registro de no respuesta:** Se contabiliza el número de personas contactadas y referidas que no contestaron únicamente sobre la fracción de datos reales (`origen = real`).
   - **Importante:** Al partir de contactos de los integrantes del grupo, este diseño conserva un componente de muestreo por conveniencia; sus implicaciones y limitaciones se desarrollan en la Sección 5 y se analizan filtrando `origen == "real"`.
-
 
 - Implementación en código:
 
@@ -55,35 +54,37 @@ muestra_cuotas = (
     .apply(lambda g: g.sample(n=5, random_state=42))
 )
 print(muestra_cuotas[[age_col, freq_col]])
+```
 
 **Salida de la implementación en Python**
 
-   ¿Cuál es su edad en años cumplidos?  \
-7                         18 a 23 años   
-1                         18 a 23 años   
-21                        18 a 23 años   
-22                        18 a 23 años   
-3                         18 a 23 años   
-6                         24 a 29 años   
-8                         24 a 29 años   
-15                        24 a 29 años   
-9                         24 a 29 años   
-14                        24 a 29 años   
+```text
+    ¿Cuál es su edad en años cumplidos?  \
+7                 18 a 23 años   
+1                 18 a 23 años   
+21                18 a 23 años   
+22                18 a 23 años   
+3                 18 a 23 años   
+6                 24 a 29 años   
+8                 24 a 29 años   
+15                24 a 29 años   
+9                 24 a 29 años   
+14                24 a 29 años   
 
-   ¿Con qué frecuencia compra en RetailAndina?  
-7                                      Mensual  
-1                                      Mensual  
-21                     Al menos una vez al mes  
-22                                     Mensual  
-3                                      Semanal  
-6                      Al menos una vez al mes  
-8                      Al menos una vez al mes  
-15                     Al menos una vez al mes  
-9                                      Mensual  
-14                     Al menos una vez al mes  
+    ¿Con qué frecuencia compra en RetailAndina?  
+7                                     Mensual  
+1                                     Mensual  
+21                    Al menos una vez al mes  
+22                                    Mensual  
+3                                     Semanal  
+6                     Al menos una vez al mes  
+8                     Al menos una vez al mes  
+15                    Al menos una vez al mes  
+9                                     Mensual  
+14                    Al menos una vez al mes  
+```
 
 Este método resulta idóneo por encima de la conveniencia pura, ya que se realiza un sorteo dentro de cada estrato que reduce la influencia de qué encuestado está mas cerca de quien lo encuestó, además, por estrato se aportan la misma cantidad de respuestas, si se realizara por conveniencia las respuestas se pueden quedar acumuladas en un solo grupo.
-
 
 ## 4. Cuestionario (5–10 preguntas)
 
@@ -96,14 +97,13 @@ Este método resulta idóneo por encima de la conveniencia pura, ya que se reali
 | 5 |¿Qué tan satisfecho está con la atención que recibe por parte del personal de RetailAndina? |Categórica ordinal |int64 |1: Muy insatisfecho, 2: Insatisfecho, 3: Neutral, 4: Satisfecho, 5: Muy satisfecho |
 | 6 |¿Recomendaría RetailAndina a un conocido? |Categórica binaria |object |Sí, No |
 | 7 |Si RetailAndina lanzara un programa de fidelización, ¿qué tan probable es que se inscriba? |Categórica ordinal |int64 |1 Nada probable, 2 Poco probable, 3 Probable, 4 Altamente probable, 5 Muy probable |
-| 8 |	¿Qué otro beneficio esperaría de un programa de fidelización de RetailAndina? |Categórica nominal |object |Abierta, opcional. |
+| 8 | ¿Qué otro beneficio esperaría de un programa de fidelización de RetailAndina? |Categórica nominal |object |Abierta, opcional. |
 | 9 | ¿Cuánto gasta al mes en compras de consumo masivo, en dólares?|Categórica ordinal |object |Menos de $10, $10 a $49, $50 a $100, Más de $100 |
 
 **Columnas adicionales del CSV:** código, fecha, origen.
 
 **Nota:** A pesar de que las preguntas 3, 4, 5, 7 lleguen como int64, se clasifican como ordinales, el tipo de dato solo es una pista, no la clasificación en sí. Las preguntas 1, 2, 6, 8 y 9 llegan como object porque se almacenan como texto.
 Exclusión: quien responda “Menos de una vez al mes” o “Nunca o no compro en RetailAndina” en la P2, o “30 o más” en la P1, no forma parte de la población y se excluye del análisis.
-
 
 ## 5. Análisis de sesgos
 
