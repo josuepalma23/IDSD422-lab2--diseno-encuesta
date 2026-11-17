@@ -11,7 +11,7 @@ Completa cada sección. Usa commits por sección; la historia del repositorio se
 
 ## 1. Objetivo de la encuesta
 
-Estimar el porcentaje de personas satisfechas en el intervalo de 18 a 29 años en una escala del 1 al 5 con respecto a RetailAndina e identificar los beneficios que el encuestado espera sobre el programa de fidelización, con el objetivo de ser enviados a la gerencia para la posterior toma de decisiones.
+Estimar el porcentaje de personas satisfechas en el intervalo de 18 a 29 años en una escala del 1 al 5 con respecto a RetailAndina e identificar los beneficios que el encuestado espera sobre el programa de fidelización, por otro lado, se desea identificar sesgos y desarrollar estrategias para mitigarlos por medio de implementos tecnológicos de programación, en este marco, los datos recibidos de encuestas serán analizados y por otro lado simulados en caso de ser necesario con este mismo fin, finalmente, los resultados obtenidos, junto con los análisis antes mencionados serán enviados a RetailAndina para generar conocimiento accionable sobre su modelo de negocio.
 
 ## 2. Población objetivo
 
@@ -90,12 +90,12 @@ Este método resulta idóneo por encima de la conveniencia pura, ya que se reali
 
 | # | Pregunta | Tipo de variable | Dtype al cargar | Opciones / escala |
 |---|---|---|---|---|
-| 1 | ¿En qué rango de edad se encuentra? |Categórica ordinal |object |18 a 23 años, 24 a 29 años, 30 años o más |
-| 2 | ¿Con qué frecuencia compra en RetailAndina?|Categórica Ordinal |object |Semanal, Quincenal, Mensual, Menos de una vez al mes, Nunca/No compro en RetailAndina |
-| 3 | En general, ¿Qué tan satisfecho se siente con RetailAndina? |Categórica Ordinal |int64 |1: Muy insatisfecho, 2: Insatisfecho, 3: Neutral, 4: Satisfecho, 5: Muy satisfecho |
+| 1 | ¿En qué rango de edad se encuentra? |Categórica ordinal | object |18 a 23 años, 24 a 29 años, 30 años o más |
+| 2 | ¿Con qué frecuencia compra en RetailAndina?|Categórica Ordinal | object |Semanal, Quincenal, Mensual, Menos de una vez al mes, Nunca/No compro en RetailAndina |
+| 3 | En general, ¿Qué tan satisfecho se siente con RetailAndina? |Categórica Ordinal | int64 |1: Muy insatisfecho, 2: Insatisfecho, 3: Neutral, 4: Satisfecho, 5: Muy satisfecho |
 | 4 | ¿Qué tan satisfecho está con los precios que ofrece RetailAndina? |Categórica ordinal |int64 |1: Muy insatisfecho, 2: Insatisfecho, 3: Neutral, 4: Satisfecho, 5: Muy satisfecho |
 | 5 |¿Qué tan satisfecho está con la atención que recibe por parte del personal de RetailAndina? |Categórica ordinal |int64 |1: Muy insatisfecho, 2: Insatisfecho, 3: Neutral, 4: Satisfecho, 5: Muy satisfecho |
-| 6 |¿Recomendaría RetailAndina a un conocido? |Categórica binaria |object |Sí, No |
+| 6 |¿Recomendaría RetailAndina a un conocido? |Categórica binaria | object |Sí, No |
 | 7 |Si RetailAndina lanzara un programa de fidelización, ¿qué tan probable es que se inscriba? |Categórica ordinal |int64 |1 Nada probable, 2 Poco probable, 3 Probable, 4 Altamente probable, 5 Muy probable |
 | 8 | ¿Qué otro beneficio esperaría de un programa de fidelización de RetailAndina? |Categórica nominal |object |Abierta, opcional. |
 | 9 | ¿Cuánto gasta al mes en compras de consumo masivo, en dólares?|Categórica ordinal |object |Menos de $10, $10 a $49, $50 a $100, Más de $100 |
