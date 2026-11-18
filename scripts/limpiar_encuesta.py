@@ -11,7 +11,7 @@ import re
 import pandas as pd
 
 RAW = sys.argv[1] if len(sys.argv) > 1 else "estadistica_actualizado-v2.csv"
-OUT = "plantillas/encuesta_respuestas.csv"
+OUT = "datos/encuesta_respuestas.csv"
 
 # Encabezados idénticos al cuestionario aprobado (sección 4 del PDF)
 COLS = [
